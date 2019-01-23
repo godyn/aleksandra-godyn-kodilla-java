@@ -23,11 +23,11 @@ public class StatisticsPresentationTestSuite {
         when(statisticsMock.commentsCount()).thenReturn(commentsMock);
         StatisticsPresentation statisticsPresentation = new StatisticsPresentation(statisticsMock);
         //When
-        double[] result = statisticsPresentation.calculateAdvStatistics(statisticsMock);
+        statisticsPresentation.calculateAdvStatistics(statisticsMock);
         //Then
-        Assert.assertEquals(0, result[0], 0.1);
-        Assert.assertEquals(0, result[1], 0.1);
-        Assert.assertEquals(0, result[2], 0.1);
+        Assert.assertEquals(0, statisticsPresentation.getCommentsPerPost(), 0.1);
+        Assert.assertEquals(0, statisticsPresentation.getCommentsPerUser(), 0.1);
+        Assert.assertEquals(0, statisticsPresentation.getPostsPerUser(), 0.1);
     }
 
     @Test
@@ -45,11 +45,11 @@ public class StatisticsPresentationTestSuite {
         when(statisticsMock.commentsCount()).thenReturn(commentsMock);
         StatisticsPresentation statisticsPresentation = new StatisticsPresentation(statisticsMock);
         //When
-        double[] result = statisticsPresentation.calculateAdvStatistics(statisticsMock);
+        statisticsPresentation.calculateAdvStatistics(statisticsMock);
         //Then
-        Assert.assertEquals(10, result[0], 0.1);
-        Assert.assertEquals(2, result[1], 0.1);
-        Assert.assertEquals(20, result[2], 0.1);
+        Assert.assertEquals(10, statisticsPresentation.getPostsPerUser(), 0.1);
+        Assert.assertEquals(2, statisticsPresentation.getCommentsPerPost(), 0.1);
+        Assert.assertEquals(20, statisticsPresentation.getCommentsPerUser(), 0.1);
     }
 
     @Test
@@ -67,10 +67,10 @@ public class StatisticsPresentationTestSuite {
         when(statisticsMock.commentsCount()).thenReturn(commentsMock);
         StatisticsPresentation statisticsPresentation = new StatisticsPresentation(statisticsMock);
         //When
-        double[] result = statisticsPresentation.calculateAdvStatistics(statisticsMock);
+        statisticsPresentation.calculateAdvStatistics(statisticsMock);
         //Then
-        Assert.assertEquals(10, result[0], 0.1);
-        Assert.assertEquals(0.5, result[1], 0.1);
-        Assert.assertEquals(5, result[2], 0.1);
+        Assert.assertEquals(10, statisticsPresentation.getPostsPerUser(), 0.1);
+        Assert.assertEquals(0.5, statisticsPresentation.getCommentsPerPost(), 0.1);
+        Assert.assertEquals(5, statisticsPresentation.getCommentsPerUser(), 0.1);
     }
 }
