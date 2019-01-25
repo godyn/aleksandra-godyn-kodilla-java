@@ -1,6 +1,7 @@
 package com.kodilla.stream;
 
 import com.kodilla.stream.beautifier.PoemBeautifier;
+import com.kodilla.stream.beautifier.ToSpaceOut;
 
 import static com.sun.tools.javac.util.StringUtils.toUpperCase;
 import static jdk.nashorn.internal.objects.NativeString.substring;
@@ -17,6 +18,6 @@ public class StreamMain {
             poemBeautifier.beautify(name, (text) -> "ABC " + text + " ABC");
             poemBeautifier.beautify(name, (text) -> "*** " + text + " ***");
             poemBeautifier.beautify(name, (text) -> toUpperCase(text));
-            poemBeautifier.beautify(name, (text) -> text.substring(0,1)+ " " +text.substring(1,2)+ " " +text.substring(2,3)+ " " +text.substring(3,4));
+            poemBeautifier.beautify(name, ToSpaceOut::spaceOut);
         }
 }
