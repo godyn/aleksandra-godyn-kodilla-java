@@ -2,7 +2,15 @@ package com.kodilla.stream;
 
 import com.kodilla.stream.beautifier.PoemBeautifier;
 import com.kodilla.stream.beautifier.ToSpaceOut;
+import com.kodilla.stream.book.Book;
+import com.kodilla.stream.book.BookDirectory;
+import com.kodilla.stream.forumuser.Forum;
+import com.kodilla.stream.forumuser.ForumUser;
 import com.kodilla.stream.iterate.NumbersGenerator;
+import com.kodilla.stream.person.People;
+
+import java.util.Map;
+import java.util.stream.Collectors;
 
 import static com.sun.tools.javac.util.StringUtils.toUpperCase;
 import static jdk.nashorn.internal.objects.NativeString.substring;
@@ -10,19 +18,33 @@ import static jdk.nashorn.internal.objects.NativeString.substring;
 public class StreamMain {
 
         public static void main(String[] args) {
-            System.out.println("Welcome to module 7 - Stream");
 
-            PoemBeautifier poemBeautifier = new PoemBeautifier();
+            System.out.println("Task from module 7.3");
+            BookDirectory theBookDirectory = new BookDirectory();
 
-            String name = "Anna";
+            Map<String, Book> theResultMapOfBooks = theBookDirectory.getList().stream()
+                    .filter(book -> book.getYearOfPublication() > 2005)
+                    .collect(Collectors.toMap(Book::getSignature, book -> book));
 
-            poemBeautifier.beautify(name, (text) -> "ABC " + text + " ABC");
-            poemBeautifier.beautify(name, (text) -> "*** " + text + " ***");
-            poemBeautifier.beautify(name, (text) -> toUpperCase(text));
-            poemBeautifier.beautify(name, ToSpaceOut::spaceOut);
+            System.out.println("# elements: " + theResultMapOfBooks.size());
+            theResultMapOfBooks.entrySet().stream()
+                    .map(entry -> entry.getKey() + ": " + entry.getValue())
+                    .forEach(System.out::println);
 
-            System.out.println("Using Stream to generate even numbers from 1 to 20");
-            NumbersGenerator.generateEven(20);
+            System.out.println("\n\nUnaasisted task 7.3");
+            Forum theForum = new Forum();
+            Map<Integer, ForumUser> theResultMapOfForumUser = theForum.getUserList().stream()
+                    .filter(user -> user.getSex()=='M')
+                    .filter(user -> user.getBirthday().getYear()<2000)
+                    .filter(user -> user.getPostsNumber()>0)
+                    .collect(Collectors.toMap(ForumUser::getUserId, user -> user));
+            System.out.println("There are " + theResultMapOfForumUser.size() + " elements meeting requirements. You can see them below.");
+            theResultMapOfForumUser.entrySet().stream()
+                    .map(entry -> entry.getKey() + ": " + entry.getValue())
+                    .forEach(System.out::println);
+
+
+
 
         }
 
