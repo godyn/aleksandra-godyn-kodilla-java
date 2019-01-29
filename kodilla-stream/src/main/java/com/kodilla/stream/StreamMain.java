@@ -13,6 +13,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import static com.sun.tools.javac.util.StringUtils.toUpperCase;
+import static java.time.LocalDate.now;
 import static jdk.nashorn.internal.objects.NativeString.substring;
 
 public class StreamMain {
@@ -35,7 +36,7 @@ public class StreamMain {
             Forum theForum = new Forum();
             Map<Integer, ForumUser> theResultMapOfForumUser = theForum.getUserList().stream()
                     .filter(user -> user.getSex()=='M')
-                    .filter(user -> user.getBirthday().getYear()<2000)
+                    .filter(user -> (now().getYear()-user.getBirthday().getYear())>19)
                     .filter(user -> user.getPostsNumber()>0)
                     .collect(Collectors.toMap(ForumUser::getUserId, user -> user));
             System.out.println("There are " + theResultMapOfForumUser.size() + " elements meeting requirements. You can see them below.");
