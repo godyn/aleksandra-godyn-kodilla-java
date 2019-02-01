@@ -176,18 +176,15 @@ public class BoardTestSuite {
         //When
         List<TaskList> inProgressTasks = new ArrayList<>();
         inProgressTasks.add(new TaskList("In progress"));
-        List<Long> sumWorkingOnTask = project.getTaskLists().stream()
+        Double averageWorkingOnTask = project.getTaskLists().stream()
                 .filter(inProgressTasks::contains)
                 .flatMap(tl -> tl.getTasks().stream())
-                .map(t -> LocalDate.now().until(t.getCreated(), DAYS))
-                .collect(Collectors.toList());
-
-        OptionalDouble averageWorkingOnTask = IntStream.range(0, sumWorkingOnTask.size())
-                .mapToLong(n->sumWorkingOnTask.get(n))
-                .average();
+                .mapToDouble(t -> LocalDate.now().until(t.getCreated(), DAYS))
+                .average()
+                .getAsDouble();
 
         //Then
-        Assert.assertEquals(10.0, -averageWorkingOnTask.getAsDouble(), 0.1);
+        Assert.assertEquals(10.0, -averageWorkingOnTask, 0.1);
     }
 }
 
