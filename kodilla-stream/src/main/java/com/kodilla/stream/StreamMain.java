@@ -12,9 +12,9 @@ import com.kodilla.stream.person.People;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import static com.sun.tools.javac.util.StringUtils.toUpperCase;
+
 import static java.time.LocalDate.now;
-import static jdk.nashorn.internal.objects.NativeString.substring;
+
 
 public class StreamMain {
 
