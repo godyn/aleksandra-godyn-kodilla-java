@@ -4,6 +4,6 @@ public class ExtraFoodShop implements Supplier {
 
     @Override
     public void process(OrderRequest orderRequest) {
-        System.out.println("Order in ExtraFoodShop - processing.");
+        System.out.println("Order in ExtraFoodShop - under preparing.");
     }
 }
