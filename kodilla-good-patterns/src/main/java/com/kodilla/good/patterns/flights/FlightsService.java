@@ -21,58 +21,32 @@ public final class FlightsService {
         flightsDatabase.put(new FlightNumber(9),new FlightDirection("WROCŁAW", "FRANKFURT"));
     }
 
-
-    /*
-    public HashMap<FlightNumber, FlightDirection> searchFlightFrom2(String startPoint){
-
-               return flightsDatabase.entrySet().stream()
-                .filter(e->e.getValue().getDepartureAirport().equals(startPoint))
-                .collect(Collectors.toConcurrentMap(e -> e.getKey(), e -> e.getValue()));
-    }
-    */
-
-
-
-
-    public void searchFlightFrom(String startPoint){
-        flightsDatabase.entrySet().stream()
-                .filter(e->e.getValue().getDepartureAirport().equals(startPoint))
-                .forEach(System.out::println);
-
+    public Map<FlightNumber, FlightDirection> searchFlightFrom(String startPoint){
+        return flightsDatabase.entrySet().stream()
+                .filter(e -> e.getValue().getDepartureAirport().equals(startPoint))
+                .collect(Collectors.toMap(e -> e.getKey(), e -> e.getValue()));
     }
 
-    public void searchFlightTo(String endPoint){
-        flightsDatabase.entrySet().stream()
-                .filter(e->e.getValue().getLandingAirport().equals(endPoint))
-                .forEach(System.out::println);
+    public Map<FlightNumber, FlightDirection> searchFlightTo(String endPoint){
+        return flightsDatabase.entrySet().stream()
+                .filter(e -> e.getValue().getLandingAirport().equals(endPoint))
+                .collect(Collectors.toMap(e -> e.getKey(), e -> e.getValue()));
+    }
 
+    public void viewResult(Map<FlightNumber, FlightDirection> map){
+         map.entrySet().stream()
+                 .forEach(e->System.out.println(e.getKey() + " " + e.getValue()));
     }
 
     public void searchIndirectFlight(String startPoint, String endPoint){
 
-        HashMap<FlightNumber, FlightDirection> startMap = new HashMap<>();
-        HashMap<FlightNumber, FlightDirection> endMap = new HashMap<>();
-
-        for(Map.Entry<FlightNumber, FlightDirection> entry: flightsDatabase.entrySet()){
-            if(entry.getValue().getDepartureAirport().equals(startPoint)){
-                startMap.put(entry.getKey(), entry.getValue());
-            }
-        }
-        for(Map.Entry<FlightNumber, FlightDirection> entry: flightsDatabase.entrySet()){
-            if(entry.getValue().getLandingAirport().equals(endPoint)){
-                endMap.put(entry.getKey(), entry.getValue());
-            }
-        }
+        Map<FlightNumber, FlightDirection> startMap = searchFlightFrom(startPoint);
+        Map<FlightNumber, FlightDirection> endMap = searchFlightTo(endPoint);
 
         for(Map.Entry<FlightNumber, FlightDirection> entry: startMap.entrySet()){
             endMap.entrySet().stream()
                     .filter(e->e.getValue().getDepartureAirport().equals(entry.getValue().getLandingAirport()))
-                    //.collect(Collectors.toConcurrentMap(e -> e.getKey(), e -> e.getValue()));
                     .forEach(e -> System.out.println(entry +" "+ e));
         }
-    }
-
-    public void searchDirectFlight(String startPoint, String endPoint){
-
     }
 }
