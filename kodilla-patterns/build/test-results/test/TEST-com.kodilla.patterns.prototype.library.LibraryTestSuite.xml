@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.kodilla.patterns.prototype.library.LibraryTestSuite" tests="1" skipped="0" failures="0" errors="0" timestamp="2019-04-09T08:42:24" hostname="MBP-Aleksandra.home" time="0.006">
+  <properties/>
+  <testcase name="testGetBooks" classname="com.kodilla.patterns.prototype.library.LibraryTestSuite" time="0.006"/>
+  <system-out><![CDATA[[Book{title='Morfina', author='Twardoch', publicationDate=2017-04-15}, Book{title='Quo vadis', author='Sienkiewicz', publicationDate=2015-01-17}]
+[Book{title='Morfina', author='Twardoch', publicationDate=2017-04-15}, Book{title='Quo vadis', author='Sienkiewicz', publicationDate=2015-01-17}]
+[Book{title='XYZ', author='ABC', publicationDate=2001-06-22}, Book{title='Morfina', author='Twardoch', publicationDate=2017-04-15}, Book{title='Quo vadis', author='Sienkiewicz', publicationDate=2015-01-17}]
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
