@@ -18,7 +18,7 @@ public class CrudAppTestSuite {
     private static final String BASE_URL = "https://godyn.github.io/";
     private WebDriver driver;
     private Random generator;
-    private WebDriver driverTrello;
+
 
     @Before
     public void initTests(){
@@ -34,7 +34,7 @@ public class CrudAppTestSuite {
 
 
     private String createCrudAppTestTask() throws InterruptedException {
-        Thread.sleep(7000);
+        Thread.sleep(15000);
         final String XPATH_TASK_NAME = "//form[contains(@action, \"createTask\")]/fieldset[1]/input";
         final String XPATH_TASK_CONTENT = "//form[contains(@action, \"createTask\")]/fieldset[2]/textarea";
         final String XPATH_ADD_BUTTON = "//form[contains(@action, \"createTask\")]/fieldset[3]/button";
@@ -60,7 +60,7 @@ public class CrudAppTestSuite {
 
         while(!driver.findElement(By.xpath("//select[1]")).isDisplayed());
 
-        driver.findElements(By.xpath("//form[@class=\"datatable_row\"]")).stream()
+        driver.findElements(By.xpath("//form[@class=\"datatable__row\"]")).stream()
                 .filter(anyForm ->
                         anyForm.findElement(By.xpath(".//p[@class=\"datatable__field-value\"]"))
                         .getText().equals(taskName))
@@ -79,7 +79,7 @@ public class CrudAppTestSuite {
     private boolean checkTaskExistsInTrello(String taskName) throws InterruptedException {
         final String TRELLO_URL ="https://trello.com/login";
         boolean result = false;
-        driverTrello = WebDriverConfig.getDriver(WebDriverConfig.CHROME);
+        WebDriver driverTrello = WebDriverConfig.getDriver(WebDriverConfig.CHROME);
         driverTrello.get(TRELLO_URL);
 
         driverTrello.findElement(By.id("user")).sendKeys("lottia");
@@ -88,7 +88,7 @@ public class CrudAppTestSuite {
 
         Thread.sleep(2000);
 
-        driverTrello.findElements(By.xpath("//a[@class= \"board_title\"]")).stream()
+        driverTrello.findElements(By.xpath("//a[contains(@class, \"board-tile\")]")).stream()
                 .filter(aHref->aHref.findElements(By.xpath(".//div[@title=\"Kodilla Application\"]")).size()>0)
                 .forEach(aHref->aHref.click());
 
@@ -99,29 +99,29 @@ public class CrudAppTestSuite {
                 .collect(Collectors.toList())
                 .size()>0;
 
+        Thread.sleep(5000);
         driverTrello.close();
 
         return result;
     }
 
     private void deleteTestTaskFromCrudApp(String taskName) throws InterruptedException {
+        driver.switchTo().alert().accept();
         driver.navigate().refresh();
 
-        while(!driverTrello.findElement(By.xpath("//span")).isDisplayed());
+        while(!driver.findElement(By.xpath("//select[1]")).isDisplayed());
 
-        driver.findElements(By.xpath("//form[@class=\"datatable_row\"]")).stream()
+        driver.findElements(By.xpath("//form[@class=\"datatable__row\"]")).stream()
                 .filter(anyForm ->
                         anyForm.findElement(By.xpath(".//p[@class=\"datatable__field-value\"]"))
                                 .getText().equals(taskName))
                 .forEach(theForm-> {
-                    WebElement buttonDelete = theForm.findElement(By.xpath(".//button[contains(@align, \"Delete\")]"));
+                    WebElement buttonDelete = theForm.findElement(By.xpath(".//button[4]"));
                     buttonDelete.click();
                 });
 
         Thread.sleep(5000);
-        driver.close();
     }
-
 
     @Test
     public void shouldCreateTrelloCard() throws InterruptedException {
@@ -129,9 +129,9 @@ public class CrudAppTestSuite {
         String taskName = createCrudAppTestTask();
         //WHEN
         sendTestTaskToTrello(taskName);
-        //THEN
-        Assert.assertTrue(checkTaskExistsInTrello(taskName));
-        //CLEAN-UP
         deleteTestTaskFromCrudApp(taskName);
+        //THEN
+        //System.out.println(checkTaskExistsInTrello(taskName));
+        Assert.assertTrue(checkTaskExistsInTrello(taskName));
     }
 }
